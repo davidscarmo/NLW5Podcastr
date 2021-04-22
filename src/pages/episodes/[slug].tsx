@@ -54,7 +54,7 @@ export default function Episode({ episode }: EpisodeProps) {
 
       <div
         className={styles.description}
-        dangerouslySetInnerHTML={{ __html: episode.description }}
+        dangerouslySetInnerHTML={{ __html: episode.description }} // this sets the text to html
       />
     </div>
   );
@@ -63,12 +63,12 @@ export default function Episode({ episode }: EpisodeProps) {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: "blocking",
+    fallback: "blocking", // using fallback: blocking makes the page only shows when the page has finished loading
   };
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const { slug } = ctx.params;
+  const { slug } = ctx.params; // ctx == context
 
   const { data } = await api.get(`episodes/${slug}`);
 
