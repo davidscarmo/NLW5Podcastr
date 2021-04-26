@@ -12,19 +12,21 @@ export function Player() {
     currentEpisodeIndex,
     isPlaying,
     togglePlay,
-    setPlayingState
+    setPlayingState,
+    playNext,
+    playPrevious,
   } = useContext(PlayerContext);
 
-  useEffect(() => { if(!audioRef.current)
-  {
-    return;
-  }
-  if(isPlaying) {
-    audioRef.current.play(); 
-  }else{
-    audioRef.current.pause();
-  }
-}, [isPlaying])
+  useEffect(() => {
+    if (!audioRef.current) {
+      return;
+    }
+    if (isPlaying) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
+  }, [isPlaying]);
   const episode = episodeList[currentEpisodeIndex];
   return (
     <div className={styles.playerContainer}>
@@ -65,19 +67,28 @@ export function Player() {
           <span>00:00</span>
         </div>
 
-        {episode && <audio src={episode.url} ref={audioRef} autoPlay onPlay={()=> setPlayingState(true)} onPause={()=> setPlayingState(false)} />}
+        {episode && (
+          <audio
+            src={episode.url}
+            ref={audioRef}
+            autoPlay
+            onPlay={() => setPlayingState(true)}
+            onPause={() => setPlayingState(false)}
+          />
+        )}
 
-        <div className={styles.buttons} onClick={togglePlay}>
+        <div className={styles.buttons} >
           <button type="button" disabled={!episode}>
             <img src="/shuffle.svg" alt="Aleatório" />
           </button>
-          <button type="button" disabled={!episode}>
+          <button type="button" disabled={!episode} onClick={playPrevious}>
             <img src="/play-previous.svg" alt="Tocar Anterior" />
           </button>
           <button
             type="button"
             className={styles.playButton}
             disabled={!episode}
+            onClick={togglePlay}
           >
             {isPlaying ? (
               <img src="/pause.svg" />
@@ -85,7 +96,7 @@ export function Player() {
               <img src="/play.svg" alt="Tocar" />
             )}
           </button>
-          <button type="button" disabled={!episode}>
+          <button type="button" disabled={!episode} onClick={playNext}>
             <img src="/play-next.svg" alt="Tocar Próximo" />
           </button>
           <button type="button" disabled={!episode}>
