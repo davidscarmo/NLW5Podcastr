@@ -3,6 +3,7 @@ import { ptBR } from "date-fns/locale";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Head from 'next/head';
 import { useContext } from "react";
 import { usePlayer } from "../../contexts/PlayerContext";
 
@@ -28,11 +29,13 @@ type EpisodeProps = {
 };
 
 export default function Episode({ episode }: EpisodeProps) {
-
-  const {play} = usePlayer();
+  const { play } = usePlayer();
 
   return (
     <div className={styles.episodes}>
+      <Head>
+        <title>{episode.title}</title>
+      </Head>
       <div className={styles.thumbnailContainer}>
         <Link href="/">
           <button type="button">
